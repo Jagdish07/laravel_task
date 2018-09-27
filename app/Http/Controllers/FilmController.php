@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use App\film;
+use DB;
+use Redirect;
+use Illuminate\Support\Facades\Input;
 
 class FilmController extends Controller
 {
@@ -13,18 +18,17 @@ class FilmController extends Controller
      */
     public function index()
     {
-        return view('films/index');
+        // get all the films
+        $films = Film::all();
+
+        // load the view and pass the films
+        return view('films.films')
+            ->with('films', $films);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function getFilms()
     {
-        //
+        return view('films/index');
     }
 
     /**
@@ -35,29 +39,9 @@ class FilmController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $film = Film::where("id",$id)->get()->first();
+        // load the view and pass the films
+        return view('films.show')
+            ->with('film', $film);
     }
 }
